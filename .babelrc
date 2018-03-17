@@ -1,0 +1,12 @@
+{
+  "presets": [
+    "react",
+    "env",
+    "flow"
+  ],
+  "plugins": [
+    "transform-decorators-legacy",
+    "transform-runtime",
+     ["transform-class-properties", { "spec": true }]
+  ]
+}
