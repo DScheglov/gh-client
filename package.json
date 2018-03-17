@@ -48,5 +48,14 @@
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.9.7",
     "webpack-uglify-js-plugin": "^1.1.9"
+  },
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.7",
+    "reactstrap": "^5.0.0-beta.2",
+    "redux": "^3.7.2",
+    "reselect": "^3.0.1",
+    "thunk": "0.0.1"
   }
 }
