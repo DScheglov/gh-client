@@ -19,7 +19,7 @@ MessageCard.propTypes = {
 };
 
 MessageCard.defaultProps = {
-  title: 'Welome',
+  title: 'Welcome',
   level: 'default',
   children: 'Input Github user name and press "Find" button',
 };
