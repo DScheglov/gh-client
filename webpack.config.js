@@ -35,6 +35,7 @@ const config = {
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(NODE_ENV),
       'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
+      'process.env.MOUNT_PATH': JSON.stringify(process.env.MOUNT_PATH || ''),
     }),
     new ExtractTextPlugin('[name].[contenthash].css'),
     new HtmlWebpackPlugin({

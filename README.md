@@ -21,5 +21,6 @@ npm start
 ```shell
 env NODE_ENV=production \ 
     CDN=//dscheglov.github.io/gh-client/ \
+    MOUNT_PATH=/gh-client \
     npm run build
 ```
