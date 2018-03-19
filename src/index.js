@@ -1,5 +1,6 @@
 import thunk from 'redux-thunk';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
+import logger from 'redux-logger';
 
 import App from './Layout';
 import * as UserName from './UserNameForm';
@@ -19,7 +20,7 @@ export const reducers = {
 };
 
 export const middlewares = [
-  thunk, routerMiddleware(history)
+  thunk, routerMiddleware(history), logger
 ];
 export default App;
 

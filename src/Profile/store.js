@@ -22,7 +22,7 @@ const userProfile = createReducer(initialState, {
   [update.type]: mergePayload,
 });
 
-const loginAsId = ({ payload }) => payload.login;
+const loginAsId = ({ payload }) => payload.login.toLowerCase();
 
 const userProfiles = createReducer({}, {
   [update.type]: lookupReducer(userProfile, loginAsId)
@@ -33,6 +33,6 @@ export default { userProfiles };
 export const domain = domainSelector(_ => _.userProfiles);
 
 export const getUserByName = createSelector(
-  domain, (_, login) => login,
+  domain, (_, login) => login.toLowerCase(),
   (users, login) => users[login]
 );

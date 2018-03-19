@@ -34,7 +34,7 @@ const repo = createReducer(initialState, {
   [update.type]: mergePayload,
 });
 
-const nameAsId = ({ payload }) => payload.fullName;
+const nameAsId = ({ payload }) => payload.fullName.toLowerCase();
 
 const repos = createReducer({}, {
   [update.type]: lookupReducer(repo, nameAsId)
@@ -44,7 +44,7 @@ const repoList = createReducer([], {
   [setList.type]: (state, { payload }) => payload.names,
 });
 
-const ownerAndPageAsId = ({ payload }) => `${payload.owner}:${payload.page || 1}`;
+const ownerAndPageAsId = ({ payload }) => `${payload.owner.toLowerCase()}:${payload.page || 1}`;
 
 const userRepos = createReducer({}, {
   [setList.type]: lookupReducer(repoList, ownerAndPageAsId),
@@ -61,10 +61,10 @@ export const domain = domainSelector(_ => _.repos);
 const reposLookup = createSelector(domain, _ => _.repos);
 const usersLookup = createSelector(domain, _ => _.userRepos);
 
-const listId = (user, userName) => `${userName}:${user && user.page || 1}`;
+const listId = (user, userName) => `${userName.toLowerCase()}:${user && user.page || 1}`;
 
 const getUserRepoList = createSelector(
-  usersLookup, getUserByName, (_, userName) => userName,
+  usersLookup, getUserByName, (_, userName) => userName.toLowerCase(),
   (lists, user, userName) => lists[listId(user, userName)]
 );
 
@@ -76,6 +76,6 @@ export const getUserRepos = dedicatedSelector(
 );
 
 export const getRepoByFullName = createSelector(
-  reposLookup, (_, userName, repoName) => `${userName}/${repoName}`,
+  reposLookup, (_, userName, repoName) => `${userName.toLowerCase()}/${repoName.toLowerCase()}`,
   (lookup, fullName) => lookup[fullName]
 );

@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getUserByName } from './store';
+import { getError } from '../common/errors';
 import { loadUser } from '../thunks/profile';
+import { getUserByName } from './store';
 
 const ProfilePure = ({ userName, user }) => user && (
   <div className="card">
@@ -41,6 +42,7 @@ const ProfilePure = ({ userName, user }) => user && (
 
 const state2Props = (state, { userName }) => ({
   user: getUserByName(state, userName) || null,
+  error: getError(state).user,
 });
 
 const dispatch2Props = { loadUser };
@@ -48,7 +50,7 @@ const dispatch2Props = { loadUser };
 const mergeProps = (state, actions, own) => ({
   ...own,
   ...state,
-  isReady: state.user || own.userName && actions.loadUser(own.userName)
+  isReady: state.user || !state.error && own.userName && actions.loadUser(own.userName)
 });
 
 const Profile = connect(state2Props, dispatch2Props, mergeProps)(ProfilePure);

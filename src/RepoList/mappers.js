@@ -22,7 +22,7 @@ export const reposToState = (repos, action) => repos.reduce(
   (state, repo) => {
     const mappedRepo = repoToState(repo);
     state[0].push(action(mappedRepo));
-    state[1].push(mappedRepo.fullName);
+    state[1].push(mappedRepo.fullName.toLowerCase());
     return state;
   }, [[], []]
 );
