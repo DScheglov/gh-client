@@ -1,11 +1,13 @@
 {
   "presets": [
+    "airbnb",
     "react",
-    "env",
+    "es2015",
+    "es2016",
+    "stage-0",
     "flow"
   ],
   "plugins": [
-    "transform-decorators-legacy",
     "transform-runtime",
      ["transform-class-properties", { "spec": true }]
   ]

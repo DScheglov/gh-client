@@ -2,12 +2,13 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const DEV = 'development';
 const PROD = 'production';
 
-const PUBLIC_FOLDER = './public';
+const PUBLIC_FOLDER = './docs';
+const CDN = process.env.CDN || '/'; // //dscheglov.github.io/gh-client/
 
 
 const NODE_ENV = process.env.NODE_ENV || DEV;
@@ -22,7 +23,7 @@ const config = {
 
   output: {
     path: path.join(APP_FOLDER, PUBLIC_FOLDER),
-    publicPath: '',
+    publicPath: CDN,
     chunkFilename: '[name].[chunkHash].js',
     filename: '[name].[chunkHash].js'
   },
@@ -36,7 +37,10 @@ const config = {
       'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
     }),
     new ExtractTextPlugin('[name].[contenthash].css'),
-    new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin({
+      template: './build/index.ejs',
+    }),
+    new CopyWebpackPlugin(['./build/404.html']),
   ],
 
   module: {
@@ -51,7 +55,7 @@ const config = {
         exclude: /node_modules(?!\/sn-front\.)/,
         options: {
           babelrc: false,
-          presets: ['react', 'env', 'flow'],
+          presets: ['airbnb', 'react', 'es2015', 'es2016', 'stage-0', 'flow'],
           plugins: [
             'transform-class-properties',
             'transform-runtime'
@@ -63,7 +67,7 @@ const config = {
         use: ExtractTextPlugin.extract({
           loader: 'css-loader',
           options: {
-            modules: true,
+            modules: false,
             localIdentName: (
               NODE_ENV === PROD ? '[hash:base64:5]' : '[local]-[hash:base64:5]'
             ),
@@ -75,33 +79,11 @@ const config = {
 
   devServer: {
     contentBase: './public',
-    host: '0.0.0.0'
-  }
-
-};
-
-
-if (NODE_ENV === PROD) {
-  config.plugins.push(new UglifyJsPlugin({
-    minimize: true,
-    debug: false,
-    beautify: false,
-    comments: false,
-    dead_code: true,
-    exclude: /babel-polyfill/,
-    compress: {
-      sequences: true,
-      booleans: true,
-      loops: true,
-      unused: true,
-      warnings: false,
-      drop_console: false,
-      unsafe: true,
-      screw_ie8: true,
-      dead_code: true
+    host: '0.0.0.0',
+    historyApiFallback: {
+      index: '/'
     }
-  }));
-  config.module.loaders[1].options.presets.push('react-optimize');
-}
+  }
+};
 
 module.exports = config;
